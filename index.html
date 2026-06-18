@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GridNodes — Automation Workflows for Irish Businesses</title>
+  <meta name="description" content="GridNodes builds intelligent n8n automation workflows for Irish SMEs. Eliminate manual work. Connect your tools. Scale your operations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:        #0A0F1E;
+      --navy-mid:    #0D1527;
+      --navy-light:  #152035;
+      --gold:        #C9954C;
+      --gold-light:  #E8C98A;
+      --gold-dim:    #8a6530;
+      --white:       #FFFFFF;
+      --slate:       #8A9BB5;
+      --slate-light: #B0BED4;
+      --border:      rgba(201,149,76,0.18);
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 68px;
+      background: rgba(10,15,30,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .nav-logo-mark {
+      width: 32px; height: 32px;
+      background: var(--gold);
+      border-radius: 7px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+      padding: 6px;
+    }
+
+    .nav-logo-mark span {
+      background: var(--navy);
+      border-radius: 2px;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--slate-light);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--navy) !important;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--gold-light) !important; color: var(--navy) !important; }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #node-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      opacity: 0.6;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 5vw;
+      max-width: 780px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px; height: 1.5px;
+      background: var(--gold);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--slate-light);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-stats {
+      position: absolute;
+      right: 5vw; bottom: 15vh;
+      z-index: 2;
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+
+    .stat-item {
+      text-align: right;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--slate);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── SECTIONS SHARED ── */
+    section { padding: 100px 5vw; }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      color: var(--slate-light);
+      font-size: 1rem;
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 3.5rem;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--navy-mid); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .service-card {
+      background: var(--navy);
+      padding: 2rem 1.8rem;
+      transition: background 0.25s;
+      position: relative;
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 1.8rem; right: 1.8rem;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .service-card:hover { background: var(--navy-light); }
+    .service-card:hover::after { transform: scaleX(1); }
+
+    .service-icon {
+      width: 44px; height: 44px;
+      background: rgba(201,149,76,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.3rem;
+    }
+
+    .service-name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+
+    .service-desc {
+      font-size: 0.875rem;
+      color: var(--slate);
+      line-height: 1.65;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--navy); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold-dim);
+    }
+
+    .project-preview {
+      height: 160px;
+      background: var(--navy-light);
+      position: relative;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .project-preview canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+    }
+
+    .project-badge {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: rgba(10,15,30,0.85);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    .project-body { padding: 1.5rem; }
+
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      font-size: 0.875rem;
+      color: var(--slate);
+      line-height: 1.65;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      background: rgba(201,149,76,0.08);
+      color: var(--gold);
+      border: 1px solid rgba(201,149,76,0.2);
+      border-radius: 4px;
+      padding: 3px 10px;
+      letter-spacing: 0.03em;
+    }
+
+    .project-link {
+      font-size: 0.85rem;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: gap 0.2s;
+    }
+
+    .project-link:hover { gap: 10px; }
+
+    /* ── PROCESS ── */
+    #process { background: var(--navy-mid); }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 28px; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .step {
+      padding: 0 1.5rem 2rem;
+      position: relative;
+    }
+
+    .step-num {
+      width: 56px; height: 56px;
+      background: var(--navy);
+      border: 1.5px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      position: relative; z-index: 1;
+      transition: background 0.25s, border-color 0.25s;
+    }
+
+    .step:hover .step-num {
+      background: var(--gold);
+      color: var(--navy);
+      border-color: var(--gold);
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      color: var(--slate);
+      line-height: 1.65;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--navy);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-card {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+    }
+
+    .about-card-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-avatar {
+      width: 52px; height: 52px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--navy);
+    }
+
+    .about-meta h3 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .about-meta span {
+      font-size: 0.8rem;
+      color: var(--slate);
+    }
+
+    .skill-list {
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+
+    .skill-item {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .skill-name {
+      font-size: 0.8rem;
+      color: var(--slate-light);
+      font-family: var(--font-mono);
+      min-width: 120px;
+    }
+
+    .skill-bar {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+      border-radius: 2px;
+      transition: width 1.2s ease;
+    }
+
+    .about-text .section-sub { margin-bottom: 2rem; }
+
+    .about-detail {
+      display: flex; align-items: flex-start; gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .about-detail-icon {
+      color: var(--gold);
+      font-size: 1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .about-detail p {
+      font-size: 0.9rem;
+      color: var(--slate-light);
+      line-height: 1.6;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--navy-mid);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-form {
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex; flex-direction: column; gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--slate-light);
+      letter-spacing: 0.03em;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+      outline: none;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .form-group select option { background: var(--navy-mid); }
+
+    .form-submit {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 8px;
+      align-self: flex-start;
+    }
+
+    .form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .contact-info { padding-top: 0.5rem; }
+
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contact-item:last-child { border-bottom: none; }
+
+    .contact-icon {
+      width: 40px; height: 40px;
+      background: rgba(201,149,76,0.1);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-detail h4 {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-detail p, .contact-detail a {
+      font-size: 0.875rem;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-detail a:hover { color: var(--gold); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--slate);
+    }
+
+    .footer-links {
+      display: flex; gap: 1.5rem; list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── REVEAL ANIMATION ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats { display: none; }
+      #about, #contact { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .process-steps::before { display: none; }
+      section { padding: 70px 5vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">
+      <div class="nav-logo-mark">
+        <span></span><span></span>
+        <span></span><span></span>
+      </div>
+      GridNodes
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <canvas id="node-canvas"></canvas>
+    <div class="hero-content">
+      <p class="hero-eyebrow">n8n Workflow Automation · Dublin, Ireland</p>
+      <h1 class="hero-title">
+        Automate the<br/>
+        work. <em>Focus on</em><br/>
+        <em>what matters.</em>
+      </h1>
+      <p class="hero-sub">
+        GridNodes builds intelligent automation workflows for Irish businesses —
+        connecting your tools, eliminating manual tasks, and making your operations run themselves.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">See My Work ↓</a>
+        <a href="#contact" class="btn-secondary">Start a Project</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Automations Built</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100s</div>
+        <div class="stat-label">Hours Saved Weekly</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">n8n</div>
+        <div class="stat-label">Core Platform</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <p class="section-eyebrow reveal">What I Build</p>
+    <h2 class="section-title reveal">Automation that actually works<br/>for your business</h2>
+    <p class="section-sub reveal">Every workflow is custom-built to your tools, your processes, and your team — no off-the-shelf solutions.</p>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-icon">⚡</div>
+        <div class="service-name">Workflow Automation</div>
+        <p class="service-desc">Connect apps and automate repetitive tasks end-to-end. From invoice processing to lead routing — built with n8n and deployed on your own infrastructure.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔗</div>
+        <div class="service-name">System Integration</div>
+        <p class="service-desc">Make your existing tools talk to each other. CRMs, ERPs, email, Slack, Google Workspace — integrated into one seamless data flow.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🤖</div>
+        <div class="service-name">AI-Powered Workflows</div>
+        <p class="service-desc">Layer AI intelligence onto your automations. Document classification, email triage, smart data extraction, and AI-assisted decision routing.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <div class="service-name">Data & Reporting</div>
+        <p class="service-desc">Automate your reporting pipelines. Pull data from multiple sources, transform it, and deliver the right numbers to the right people — automatically.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-eyebrow reveal">Selected Work</p>
+    <h2 class="section-title reveal">Automations built<br/>and deployed</h2>
+    <p class="section-sub reveal">Real workflows solving real problems — from invoice processing to AI-powered document handling.</p>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-preview">
+          <canvas class="mini-canvas" data-color="#C9954C"></canvas>
+          <div class="project-badge">n8n · AI</div>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Invoice Processing Automation</h3>
+          <p class="project-desc">
+            End-to-end automation that receives invoices by email, extracts key data using AI, validates against purchase orders, and routes for approval — all without human touch.
+          </p>
+          <div class="project-tags">
+            <span class="tag">n8n</span>
+            <span class="tag">LangChain</span>
+            <span class="tag">HTTP Request</span>
+            <span class="tag">AI Extraction</span>
+          </div>
+          <a href="#contact" class="project-link">Request a Demo →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-preview">
+          <canvas class="mini-canvas" data-color="#4C7EC9"></canvas>
+          <div class="project-badge">n8n · CRM</div>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Lead Qualification & Routing</h3>
+          <p class="project-desc">
+            Automatically scores incoming leads from web forms, qualifies them against set criteria, enriches with additional data, and routes to the right team member instantly.
+          </p>
+          <div class="project-tags">
+            <span class="tag">n8n</span>
+            <span class="tag">Webhook</span>
+            <span class="tag">CRM API</span>
+            <span class="tag">Slack</span>
+          </div>
+          <a href="#contact" class="project-link">Request a Demo →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-preview">
+          <canvas class="mini-canvas" data-color="#4CC9A0"></canvas>
+          <div class="project-badge">n8n · Docs</div>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Client Onboarding Pipeline</h3>
+          <p class="project-desc">
+            Triggers on a new client sign-up, creates accounts across systems, sends personalised welcome sequences, assigns tasks to team members, and logs everything automatically.
+          </p>
+          <div class="project-tags">
+            <span class="tag">n8n</span>
+            <span class="tag">Google Workspace</span>
+            <span class="tag">Email</span>
+            <span class="tag">Notion API</span>
+          </div>
+          <a href="#contact" class="project-link">Request a Demo →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <p class="section-eyebrow reveal">How It Works</p>
+    <h2 class="section-title reveal">From conversation<br/>to live automation</h2>
+    <p class="section-sub reveal">A clear, structured process — no jargon, no mystery, just working automations delivered fast.</p>
+    <div class="process-steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Discovery Call</h3>
+        <p class="step-desc">We map your current manual processes, identify the highest-value automation opportunities, and agree on the exact scope and outcome.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h3 class="step-title">Workflow Design</h3>
+        <p class="step-desc">I design the automation logic, map your data flows, and outline the integration points — before writing a single line of code.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h3 class="step-title">Build & Test</h3>
+        <p class="step-desc">Built in n8n, tested against real data, and iterated until the workflow handles every edge case your business throws at it.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <h3 class="step-title">Deploy & Support</h3>
+        <p class="step-desc">Deployed on your infrastructure or mine, with documentation and ongoing support so your automation keeps running reliably.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-visual reveal">
+      <div class="about-card">
+        <div class="about-card-header">
+          <div class="about-avatar">PT</div>
+          <div class="about-meta">
+            <h3>Prince Tony</h3>
+            <span>Manufacturing Process Engineer & Automation Builder</span>
+          </div>
+        </div>
+        <div class="skill-list">
+          <div class="skill-item">
+            <span class="skill-name">n8n Workflows</span>
+            <div class="skill-bar"><div class="skill-fill" data-width="88%" style="width:0%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">API Integration</span>
+            <div class="skill-bar"><div class="skill-fill" data-width="82%" style="width:0%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">AI / LangChain</span>
+            <div class="skill-bar"><div class="skill-fill" data-width="75%" style="width:0%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Process Engineering</span>
+            <div class="skill-bar"><div class="skill-fill" data-width="92%" style="width:0%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">JavaScript</span>
+            <div class="skill-bar"><div class="skill-fill" data-width="70%" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <p class="section-eyebrow">About</p>
+      <h2 class="section-title">Engineering mindset.<br/>Automation execution.</h2>
+      <p class="section-sub">
+        I'm a Manufacturing Process Engineer working in medical devices in Dublin — and I build n8n automations on the side for businesses that are tired of doing things manually.
+      </p>
+      <div class="about-detail">
+        <span class="about-detail-icon">🎓</span>
+        <p>MSc in Mechanical & Manufacturing Engineering, Dublin City University. Nanotech research background — I'm comfortable working at the precision end of complex systems.</p>
+      </div>
+      <div class="about-detail">
+        <span class="about-detail-icon">⚙️</span>
+        <p>Day job in regulated medical device manufacturing — CAPA, ERP systems, process control. The same structured thinking applies directly to designing reliable automation workflows.</p>
+      </div>
+      <div class="about-detail">
+        <span class="about-detail-icon">🇮🇪</span>
+        <p>Based in Dublin. Focused on Irish SMEs in professional services and life sciences who want to work smarter without hiring more people.</p>
+      </div>
+      <a href="#contact" class="btn-primary" style="margin-top:1.5rem;">Work With Me →</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-info reveal">
+      <p class="section-eyebrow">Contact</p>
+      <h2 class="section-title">Let's build something<br/>that runs itself.</h2>
+      <p class="section-sub">Tell me what you're doing manually that you wish you weren't. Most automations can be scoped, built, and deployed within 2–4 weeks.</p>
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div class="contact-detail">
+          <h4>Email</h4>
+          <a href="mailto:princetony1208@gmail.com">princetony1208@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-detail">
+          <h4>Location</h4>
+          <p>Dublin, Ireland — available for remote projects nationwide</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">⏱️</div>
+        <div class="contact-detail">
+          <h4>Response Time</h4>
+          <p>Usually within 24 hours on weekdays</p>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="John" required />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Murphy" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="john@company.ie" required />
+        </div>
+        <div class="form-group">
+          <label>Company / Organisation</label>
+          <input type="text" placeholder="Murphy & Associates" />
+        </div>
+        <div class="form-group">
+          <label>What do you want to automate?</label>
+          <select>
+            <option value="">Select a use case...</option>
+            <option>Invoice or document processing</option>
+            <option>Lead qualification & CRM</option>
+            <option>Client onboarding</option>
+            <option>Reporting & data pipelines</option>
+            <option>Email & communication workflows</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell me more about your process</label>
+          <textarea placeholder="Describe what you're currently doing manually, roughly how often, and what you'd like the end result to look like..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message ↗</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#hero" class="footer-logo">GridNodes</a>
+    <ul class="footer-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2025 GridNodes · Built in Dublin 🇮🇪</p>
+  </footer>
+
+  <script>
+    // ── HERO NODE CANVAS ──
+    const canvas = document.getElementById('node-canvas');
+    const ctx = canvas.getContext('2d');
+    let nodes = [], W, H, animId;
+
+    function resize() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+
+    function initNodes() {
+      nodes = [];
+      const count = Math.floor((W * H) / 18000);
+      for (let i = 0; i < count; i++) {
+        nodes.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          r: Math.random() * 2.5 + 1,
+          pulse: Math.random() * Math.PI * 2,
+          type: Math.random() > 0.7 ? 'trigger' : 'node'
+        });
+      }
+    }
+
+    function drawNodes(t) {
+      ctx.clearRect(0, 0, W, H);
+      const GOLD = '#C9954C';
+      const GOLD_DIM = 'rgba(201,149,76,0.3)';
+      const CONNECT_DIST = 140;
+
+      // Draw connections
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < CONNECT_DIST) {
+            const alpha = (1 - dist / CONNECT_DIST) * 0.35;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(201,149,76,${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Animated data packet travelling the connection
+            if (Math.random() < 0.001) {
+              const prog = (Math.sin(t * 0.002 + i) + 1) / 2;
+              const px = nodes[i].x + (nodes[j].x - nodes[i].x) * prog;
+              const py = nodes[i].y + (nodes[j].y - nodes[i].y) * prog;
+              ctx.beginPath();
+              ctx.arc(px, py, 2, 0, Math.PI * 2);
+              ctx.fillStyle = GOLD;
+              ctx.fill();
+            }
+          }
+        }
+      }
+
+      // Draw nodes
+      nodes.forEach(n => {
+        n.pulse += 0.02;
+        const glow = Math.sin(n.pulse) * 0.5 + 0.5;
+
+        if (n.type === 'trigger') {
+          // Square trigger node
+          const size = n.r * 3.5;
+          ctx.fillStyle = `rgba(201,149,76,${0.15 + glow * 0.15})`;
+          ctx.strokeStyle = `rgba(201,149,76,${0.6 + glow * 0.4})`;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.roundRect(n.x - size/2, n.y - size/2, size, size, 2);
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          // Circle process node
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r + glow, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(201,149,76,${0.5 + glow * 0.5})`;
+          ctx.fill();
+        }
+
+        // Move
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
+      });
+    }
+
+    function animate(t) {
+      drawNodes(t);
+      animId = requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => { resize(); initNodes(); });
+    resize(); initNodes(); animate(0);
+
+    // ── MINI CANVASES (project cards) ──
+    document.querySelectorAll('.mini-canvas').forEach(mc => {
+      const mctx = mc.getContext('2d');
+      const color = mc.dataset.color || '#C9954C';
+      let mnodes = [];
+
+      function initMini() {
+        mc.width = mc.offsetWidth;
+        mc.height = mc.offsetHeight;
+        mnodes = [];
+        for (let i = 0; i < 12; i++) {
+          mnodes.push({
+            x: Math.random() * mc.width,
+            y: Math.random() * mc.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            r: Math.random() * 2 + 1,
+            pulse: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function animMini() {
+        mctx.clearRect(0, 0, mc.width, mc.height);
+        mnodes.forEach((n, i) => {
+          n.pulse += 0.03;
+          mnodes.forEach((m, j) => {
+            if (i >= j) return;
+            const d = Math.hypot(n.x - m.x, n.y - m.y);
+            if (d < 100) {
+              mctx.beginPath();
+              mctx.moveTo(n.x, n.y);
+              mctx.lineTo(m.x, m.y);
+              const hex = color.replace('#','');
+              const r = parseInt(hex.substring(0,2),16);
+              const g = parseInt(hex.substring(2,4),16);
+              const b = parseInt(hex.substring(4,6),16);
+              mctx.strokeStyle = `rgba(${r},${g},${b},${(1 - d/100) * 0.4})`;
+              mctx.lineWidth = 0.8;
+              mctx.stroke();
+            }
+          });
+          const glow = Math.sin(n.pulse) * 0.5 + 0.5;
+          mctx.beginPath();
+          mctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          const hex = color.replace('#','');
+          const r = parseInt(hex.substring(0,2),16);
+          const g = parseInt(hex.substring(2,4),16);
+          const b = parseInt(hex.substring(4,6),16);
+          mctx.fillStyle = `rgba(${r},${g},${b},${0.4 + glow * 0.6})`;
+          mctx.fill();
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < 0 || n.x > mc.width) n.vx *= -1;
+          if (n.y < 0 || n.y > mc.height) n.vy *= -1;
+        });
+        requestAnimationFrame(animMini);
+      }
+      initMini(); animMini();
+    });
+
+    // ── SCROLL REVEAL ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => observer.observe(r));
+
+    // ── SKILL BAR ANIMATION ──
+    const skillObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.skill-fill').forEach(fill => {
+            fill.style.width = fill.dataset.width;
+          });
+          skillObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.about-card').forEach(c => skillObs.observe(c));
+
+    // ── FORM SUBMIT ──
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      btn.textContent = '✓ Message Sent!';
+      btn.style.background = '#4CC9A0';
+      setTimeout(() => {
+        btn.textContent = 'Send Message ↗';
+        btn.style.background = '';
+        e.target.reset();
+      }, 3000);
+    }
+
+    // ── ACTIVE NAV HIGHLIGHT ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : '';
+      });
+    }, { passive: true });
+  </script>
+</body>
+</html>

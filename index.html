@@ -5,6 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GridNodes | Automation Workflows for Irish Businesses</title>
   <meta name="description" content="GridNodes builds intelligent n8n automation workflows for Irish SMEs. Eliminate manual work. Connect your tools. Scale your operations." />
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="GridNodes | Automation Workflows for Irish Businesses" />
+  <meta property="og:description" content="GridNodes builds intelligent n8n automation workflows for Irish SMEs. Eliminate manual work. Connect your tools. Scale your operations." />
+  <meta property="og:url" content="https://gridnodes.ie" />
+  <meta property="og:image" content="https://gridnodes.ie/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GridNodes | Automation Workflows for Irish Businesses" />
+  <meta name="twitter:description" content="Custom n8n automation workflows for Irish businesses. Connect your tools, eliminate manual tasks." />
+  <meta name="twitter:image" content="https://gridnodes.ie/og-image.png" />
+
+  <!-- Favicon (inline SVG matching the brand) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23C9954C'/%3E%3Crect x='5' y='5' width='9' height='9' rx='2' fill='%230A0F1E'/%3E%3Crect x='18' y='5' width='9' height='9' rx='2' fill='%230A0F1E'/%3E%3Crect x='5' y='18' width='9' height='9' rx='2' fill='%230A0F1E'/%3E%3Crect x='18' y='18' width='9' height='9' rx='2' fill='%230A0F1E'/%3E%3C/svg%3E" />
+
+  <!-- Google Analytics: replace GA_MEASUREMENT_ID with your actual ID from https://analytics.google.com -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script> -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -38,7 +62,6 @@
       overflow-x: hidden;
     }
 
-    /* ── SCROLLBAR ── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--navy); }
     ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
@@ -104,6 +127,38 @@
     }
 
     .nav-cta:hover { background: var(--gold-light) !important; color: var(--navy) !important; }
+
+    /* ── MOBILE MENU ── */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 101;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      margin: 5px 0;
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .nav-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
 
     /* ── HERO ── */
     #hero {
@@ -399,8 +454,86 @@
 
     .project-link:hover { gap: 10px; }
 
+    /* ── DEMOS ── */
+    #demos { background: var(--navy-mid); }
+
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .demo-card {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+
+    .demo-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold-dim);
+    }
+
+    .demo-video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      background: var(--navy-light);
+    }
+
+    .demo-video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    .demo-placeholder {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: var(--slate);
+      font-size: 0.85rem;
+    }
+
+    .demo-placeholder-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(201,149,76,0.15);
+      border: 2px solid var(--gold-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .demo-body {
+      padding: 1.25rem 1.5rem;
+    }
+
+    .demo-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .demo-desc {
+      font-size: 0.825rem;
+      color: var(--slate);
+      line-height: 1.6;
+    }
+
     /* ── PROCESS ── */
-    #process { background: var(--navy-mid); }
+    #process { background: var(--navy); }
 
     .process-steps {
       display: grid;
@@ -458,7 +591,7 @@
 
     /* ── ABOUT ── */
     #about {
-      background: var(--navy);
+      background: var(--navy-mid);
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5rem;
@@ -470,7 +603,7 @@
     }
 
     .about-card {
-      background: var(--navy-mid);
+      background: var(--navy);
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 2rem;
@@ -556,7 +689,7 @@
 
     /* ── CONTACT ── */
     #contact {
-      background: var(--navy-mid);
+      background: var(--navy);
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5rem;
@@ -587,7 +720,7 @@
     .form-group input,
     .form-group textarea,
     .form-group select {
-      background: var(--navy);
+      background: var(--navy-mid);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 12px 14px;
@@ -625,6 +758,20 @@
     }
 
     .form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .form-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-status {
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .form-status.success { color: #4CC9A0; }
+    .form-status.error { color: #E05252; }
 
     .contact-info { padding-top: 0.5rem; }
 
@@ -664,7 +811,7 @@
 
     /* ── FOOTER ── */
     footer {
-      background: var(--navy);
+      background: var(--navy-mid);
       border-top: 1px solid var(--border);
       padding: 2.5rem 5vw;
       display: flex;
@@ -714,11 +861,32 @@
 
     /* ── MOBILE ── */
     @media (max-width: 768px) {
-      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 68px; left: 0; right: 0; bottom: 0;
+        background: rgba(10,15,30,0.97);
+        backdrop-filter: blur(16px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+        padding: 2rem;
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        font-size: 1.1rem;
+      }
+
       .hero-stats { display: none; }
       #about, #contact { grid-template-columns: 1fr; gap: 3rem; }
       .form-row { grid-template-columns: 1fr; }
       .process-steps::before { display: none; }
+      .demos-grid { grid-template-columns: 1fr; }
       section { padding: 70px 5vw; }
     }
   </style>
@@ -734,12 +902,18 @@
       </div>
       GridNodes
     </a>
+    <button class="nav-toggle" aria-label="Menu" onclick="this.classList.toggle('active'); document.querySelector('.nav-links').classList.toggle('open');">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <ul class="nav-links">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#projects">Work</a></li>
-      <li><a href="#process">Process</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+      <li><a href="#services" onclick="closeMenu()">Services</a></li>
+      <li><a href="#projects" onclick="closeMenu()">Work</a></li>
+      <li><a href="#demos" onclick="closeMenu()">Demos</a></li>
+      <li><a href="#process" onclick="closeMenu()">Process</a></li>
+      <li><a href="#about" onclick="closeMenu()">About</a></li>
+      <li><a href="#contact" class="nav-cta" onclick="closeMenu()">Get in Touch</a></li>
     </ul>
   </nav>
 
@@ -758,7 +932,7 @@
         We connect your tools, eliminate manual tasks, and make your operations run themselves.
       </p>
       <div class="hero-actions">
-        <a href="#projects" class="btn-primary">See My Work ↓</a>
+        <a href="#demos" class="btn-primary">Watch Demos ▶</a>
         <a href="#contact" class="btn-secondary">Start a Project</a>
       </div>
     </div>
@@ -871,6 +1045,60 @@
             <span class="tag">Notion API</span>
           </div>
           <a href="#contact" class="project-link">Request a Demo →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DEMOS -->
+  <section id="demos">
+    <p class="section-eyebrow reveal">See It In Action</p>
+    <h2 class="section-title reveal">Watch the workflows run</h2>
+    <p class="section-sub reveal">Short walkthroughs of real automations. See exactly how they work before you commit to anything.</p>
+    <div class="demos-grid">
+
+      <div class="demo-card reveal">
+        <div class="demo-video-wrap">
+          <!-- Replace YOUR_VIDEO_ID_1 with your YouTube or Loom video ID -->
+          <!-- YouTube: <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+          <!-- Loom: <iframe src="https://www.loom.com/embed/YOUR_VIDEO_ID_1" allowfullscreen></iframe> -->
+          <div class="demo-placeholder">
+            <div class="demo-placeholder-icon">▶</div>
+            <span>Video coming soon</span>
+          </div>
+        </div>
+        <div class="demo-body">
+          <h3 class="demo-title">Invoice Processing Demo</h3>
+          <p class="demo-desc">Watch an invoice arrive by email, get parsed by AI, validated, and routed for approval in under 30 seconds.</p>
+        </div>
+      </div>
+
+      <div class="demo-card reveal">
+        <div class="demo-video-wrap">
+          <!-- Replace with your second video embed -->
+          <div class="demo-placeholder">
+            <div class="demo-placeholder-icon">▶</div>
+            <span>Video coming soon</span>
+          </div>
+        </div>
+        <div class="demo-body">
+          <h3 class="demo-title">Lead Routing Demo</h3>
+          <p class="demo-desc">A new lead hits a web form, gets scored and enriched, then lands in the right rep's Slack channel instantly.</p>
+        </div>
+      </div>
+
+      <div class="demo-card reveal">
+        <div class="demo-video-wrap">
+          <!-- Replace with your third video embed -->
+          <div class="demo-placeholder">
+            <div class="demo-placeholder-icon">▶</div>
+            <span>Video coming soon</span>
+          </div>
+        </div>
+        <div class="demo-body">
+          <h3 class="demo-title">Client Onboarding Demo</h3>
+          <p class="demo-desc">New client signs up and accounts, welcome emails, task assignments, and docs all get created automatically.</p>
         </div>
       </div>
 
@@ -992,28 +1220,35 @@
       </div>
     </div>
     <div class="reveal">
-      <form class="contact-form" onsubmit="handleSubmit(event)">
+      <!--
+        CONTACT FORM SETUP:
+        1. Go to https://formspree.io and create a free account
+        2. Create a new form and copy your form ID (looks like: xabcdefg)
+        3. Replace YOUR_FORM_ID below with your actual Formspree form ID
+        4. Formspree will email you every submission to princetony1208@gmail.com
+      -->
+      <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
         <div class="form-row">
           <div class="form-group">
-            <label>First Name</label>
-            <input type="text" placeholder="John" required />
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="John" required />
           </div>
           <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" placeholder="Murphy" required />
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Murphy" required />
           </div>
         </div>
         <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" placeholder="john@company.ie" required />
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="john@company.ie" required />
         </div>
         <div class="form-group">
-          <label>Company / Organisation</label>
-          <input type="text" placeholder="Murphy & Associates" />
+          <label for="company">Company / Organisation</label>
+          <input type="text" id="company" name="company" placeholder="Murphy & Associates" />
         </div>
         <div class="form-group">
-          <label>What do you want to automate?</label>
-          <select>
+          <label for="useCase">What do you want to automate?</label>
+          <select id="useCase" name="useCase">
             <option value="">Select a use case...</option>
             <option>Invoice or document processing</option>
             <option>Lead qualification & CRM</option>
@@ -1024,10 +1259,11 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Tell me more about your process</label>
-          <textarea placeholder="Describe what you're currently doing manually, roughly how often, and what you'd like the end result to look like..."></textarea>
+          <label for="message">Tell me more about your process</label>
+          <textarea id="message" name="message" placeholder="Describe what you're currently doing manually, roughly how often, and what you'd like the end result to look like..."></textarea>
         </div>
         <button type="submit" class="form-submit">Send Message ↗</button>
+        <div class="form-status" id="form-status"></div>
       </form>
     </div>
   </section>
@@ -1038,12 +1274,19 @@
     <ul class="footer-links">
       <li><a href="#services">Services</a></li>
       <li><a href="#projects">Work</a></li>
+      <li><a href="#demos">Demos</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <p class="footer-copy">© 2025 GridNodes · Built in Dublin 🇮🇪</p>
+    <p class="footer-copy">© 2025 GridNodes · Built in Dublin</p>
   </footer>
 
   <script>
+    // ── MOBILE MENU ──
+    function closeMenu() {
+      document.querySelector('.nav-toggle').classList.remove('active');
+      document.querySelector('.nav-links').classList.remove('open');
+    }
+
     // ── HERO NODE CANVAS ──
     const canvas = document.getElementById('node-canvas');
     const ctx = canvas.getContext('2d');
@@ -1073,10 +1316,8 @@
     function drawNodes(t) {
       ctx.clearRect(0, 0, W, H);
       const GOLD = '#C9954C';
-      const GOLD_DIM = 'rgba(201,149,76,0.3)';
       const CONNECT_DIST = 140;
 
-      // Draw connections
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
@@ -1091,7 +1332,6 @@
             ctx.lineWidth = 1;
             ctx.stroke();
 
-            // Animated data packet travelling the connection
             if (Math.random() < 0.001) {
               const prog = (Math.sin(t * 0.002 + i) + 1) / 2;
               const px = nodes[i].x + (nodes[j].x - nodes[i].x) * prog;
@@ -1105,13 +1345,11 @@
         }
       }
 
-      // Draw nodes
       nodes.forEach(n => {
         n.pulse += 0.02;
         const glow = Math.sin(n.pulse) * 0.5 + 0.5;
 
         if (n.type === 'trigger') {
-          // Square trigger node
           const size = n.r * 3.5;
           ctx.fillStyle = `rgba(201,149,76,${0.15 + glow * 0.15})`;
           ctx.strokeStyle = `rgba(201,149,76,${0.6 + glow * 0.4})`;
@@ -1121,14 +1359,12 @@
           ctx.fill();
           ctx.stroke();
         } else {
-          // Circle process node
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.r + glow, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(201,149,76,${0.5 + glow * 0.5})`;
           ctx.fill();
         }
 
-        // Move
         n.x += n.vx;
         n.y += n.vy;
         if (n.x < 0 || n.x > W) n.vx *= -1;
@@ -1144,7 +1380,7 @@
     window.addEventListener('resize', () => { resize(); initNodes(); });
     resize(); initNodes(); animate(0);
 
-    // ── MINI CANVASES (project cards) ──
+    // ── MINI CANVASES ──
     document.querySelectorAll('.mini-canvas').forEach(mc => {
       const mctx = mc.getContext('2d');
       const color = mc.dataset.color || '#C9954C';
@@ -1229,18 +1465,48 @@
     }, { threshold: 0.3 });
     document.querySelectorAll('.about-card').forEach(c => skillObs.observe(c));
 
-    // ── FORM SUBMIT ──
-    function handleSubmit(e) {
+    // ── CONTACT FORM (Formspree) ──
+    const contactForm = document.getElementById('contact-form');
+    const formStatus = document.getElementById('form-status');
+
+    contactForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      const btn = e.target.querySelector('.form-submit');
-      btn.textContent = '✓ Message Sent!';
-      btn.style.background = '#4CC9A0';
-      setTimeout(() => {
+      const btn = contactForm.querySelector('.form-submit');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      formStatus.textContent = '';
+      formStatus.className = 'form-status';
+
+      try {
+        const response = await fetch(contactForm.action, {
+          method: 'POST',
+          body: new FormData(contactForm),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          btn.textContent = '✓ Message Sent!';
+          btn.style.background = '#4CC9A0';
+          formStatus.textContent = "Thanks! I'll get back to you within 24 hours.";
+          formStatus.className = 'form-status success';
+          contactForm.reset();
+          setTimeout(() => {
+            btn.textContent = 'Send Message ↗';
+            btn.style.background = '';
+            btn.disabled = false;
+            formStatus.textContent = '';
+          }, 4000);
+        } else {
+          throw new Error('Form submission failed');
+        }
+      } catch (err) {
         btn.textContent = 'Send Message ↗';
         btn.style.background = '';
-        e.target.reset();
-      }, 3000);
-    }
+        btn.disabled = false;
+        formStatus.textContent = 'Something went wrong. Please email me directly instead.';
+        formStatus.className = 'form-status error';
+      }
+    });
 
     // ── ACTIVE NAV HIGHLIGHT ──
     const sections = document.querySelectorAll('section[id]');
